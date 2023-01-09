@@ -8,10 +8,12 @@ class Home extends BaseController
         $checkUser = $session->get('u_id');
 		//return view('welcome_message');
         if ($checkUser) {
-            echo 'welcome: ' . $session->get('u_name');
+            echo 'welcome: ' . $session->get('u_name') . ' <br> ';
+            echo anchor('logout','Logout Now','');
         }
         else{
-            echo 'redirect here...';
+            $session->setFlashdata('message','Please login first to access home page');
+            return redirect()->to(site_url('login'));
         }
 	}
 

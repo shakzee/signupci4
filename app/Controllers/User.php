@@ -44,7 +44,7 @@ class User extends BaseController
             $checkAlreadyUser = $users->where('u_email',$data['u_email'])->findAll();
             if (count($checkAlreadyUser) > 0) {
                 $session->setFlashdata('message','This email: ' . $data['u_email'] . ' already exist.');
-                return redirect()->to(site_url('user/newuser'));
+                return redirect()->to(site_url('register'));
                 //echo 'the email is already exist.';
             }
             else{
@@ -60,7 +60,7 @@ class User extends BaseController
                 }
                 else{
                     $session->setFlashdata('message','We have successfully create the account but we can\'t send you the email right now.');
-                    return redirect()->to(site_url('user/newuser'));
+                    return redirect()->to(site_url('register'));
                 }
             }
             //die();
@@ -81,16 +81,16 @@ class User extends BaseController
             $activateUser = $user->update($checkUserLink[0]['u_id'],$data);
             if ($activateUser) {
                 $session->setFlashdata('message','We have successfully activate your account.');
-                return redirect()->to(site_url('user/newuser'));
+                return redirect()->to(site_url('login'));
             }
             else{
                 $session->setFlashdata('message','Your link is not available in the system, please check your email address and try again.');
-                return redirect()->to(site_url('user/newuser'));
+                return redirect()->to(site_url('register'));
             }
         }
         else{
             $session->setFlashdata('message','Something went wrong.');
-            return redirect()->to(site_url('user/newuser'));
+            return redirect()->to(site_url('register'));
         }
        // var_dump($checkUserLink);
     }
@@ -138,16 +138,16 @@ class User extends BaseController
                     }
                     else{
                         $session->setFlashdata('message','You can\'t signin, please try again.');
-                        return redirect()->to(site_url('user/signin'));
+                        return redirect()->to(site_url('login'));
                     }
                 }
                 else{
                     $session->setFlashdata('message','The password is invalid, please check your password.');
-                    return redirect()->to(site_url('user/signin'));
+                    return redirect()->to(site_url('login'));
                 }
             }else{
                 $session->setFlashdata('message','The user is not available in the system.');
-                return redirect()->to(site_url('user/signin'));
+                return redirect()->to(site_url('login'));
             }
         }
     }
@@ -156,6 +156,6 @@ class User extends BaseController
     {
         $session = \Config\Services::session();
         $session->destroy();
-        return redirect()->to(site_url('user/signin'));
+        return redirect()->to(site_url('login'));
     }
 }//class here
